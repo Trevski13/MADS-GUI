@@ -54,7 +54,6 @@
     <ManifestCertificateThumbprint>E3023F774A89A76112A81F78DF7932065E701243</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>MADS_GUI_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>false</SignAssembly>
