@@ -17,7 +17,7 @@ namespace MADS_GUI
     public partial class MainWindow : Form
     {
         readonly string settingsFileLocation = "settings.ini";
-        string coreLocation, updaterModuleLocation;
+        string coreLocation, moduleLocation;
         string[] potentialModules;
         ArrayList confirmedModules = new ArrayList();
         readonly string defaultCoreLocation = AppDomain.CurrentDomain.BaseDirectory; //"T:\\ecalc lab files\\Organized Fixes\\Updates"; //C:\\Users\\Trevor\\Updater\\"; //T:\\ecalc lab files\\Organized Fixes\\Updates";
@@ -53,7 +53,7 @@ namespace MADS_GUI
                         else if (settingsStmtMatch.Groups["variableName"].Value == "modules")
                         {
                             Console.WriteLine("Setting Module Location to: " + settingsStmtMatch.Groups["variableValue"].Value);
-                            updaterModuleLocation = settingsStmtMatch.Groups["variableValue"].Value;
+                            moduleLocation = settingsStmtMatch.Groups["variableValue"].Value;
                         }
                     }
                 }
@@ -62,26 +62,26 @@ namespace MADS_GUI
             {
                 Console.WriteLine("File Not found, Using default");
                 coreLocation = defaultCoreLocation;
-                updaterModuleLocation = defaultModuleLocation;
+                moduleLocation = defaultModuleLocation;
             }
             if (coreLocation == null)
             {
                 coreLocation = defaultCoreLocation;
             }
-            if (updaterModuleLocation == null)
+            if (moduleLocation == null)
             {
-                updaterModuleLocation = defaultModuleLocation;
+                moduleLocation = defaultModuleLocation;
             }
             Console.WriteLine("Core Location: " + coreLocation);
-            Console.WriteLine("Module Location: " + updaterModuleLocation);
+            Console.WriteLine("Module Location: " + moduleLocation);
             try
             {
-                potentialModules = Directory.GetDirectories(updaterModuleLocation);
+                potentialModules = Directory.GetDirectories(moduleLocation);
                 scripts = Directory.GetFiles(coreLocation);
             }
             catch (System.IO.DirectoryNotFoundException)
             {
-                System.Windows.Forms.MessageBox.Show("The Directory \"" + updaterModuleLocation + "\" was not found, the program will now quit");
+                System.Windows.Forms.MessageBox.Show("The Directory \"" + moduleLocation + "\" was not found, the program will now quit");
                 Application.Exit();
                 Environment.Exit(1);
             }
@@ -256,15 +256,34 @@ namespace MADS_GUI
             System.Windows.Forms.MessageBox.Show("room(s): " + writenToRooms + "has/have been updated with the new configuration");
         }
 
-        private void button7_Click(object sender, EventArgs e)
+        private void About_Button_Click(object sender, EventArgs e)
         {
             System.Windows.Forms.MessageBox.Show("Program: Update Selector\nVersion: " + FileVersionInfo.GetVersionInfo(System.Reflection.Assembly.GetExecutingAssembly().Location).FileVersion + "\nCreated By: Trevor Buttrey");
             //System.Windows.Forms.MessageBox.Show(FileVersionInfo.GetVersionInfo(System.Reflection.Assembly.GetExecutingAssembly().Location).FileVersion);
         }
 
-        private void button8_Click(object sender, EventArgs e)
+        private void New_Script_Click(object sender, EventArgs e)
         {
             //TODO: create new room ini file
+            // Create a new instance of the Room_Namer class
+            Room_Namer NamerForm = new Room_Namer();
+
+            // Show the settings form
+            //NamerForm.Show();
+            NamerForm.ShowDialog();
+            if (NamerForm.textAccepted)
+            {
+                if (!rooms.Items.Contains(NamerForm.textValue))
+                {
+                    ScriptRW.createfile(NamerForm.textValue);
+                    refresh_room();
+                }
+                else
+                {
+                    System.Windows.Forms.MessageBox.Show("Room Already Exists");
+                }
+            }
+            NamerForm.Dispose();
         }
     }
 }

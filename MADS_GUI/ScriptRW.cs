@@ -43,6 +43,10 @@ namespace MADS_GUI
                 //output.WriteLine("exit");
             }
         }
+        public static void createfile(string file)
+        {
+            File.Create(file).Dispose();
+        }
 
     }
 }

@@ -74,6 +74,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Room_Namer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Room_Namer.Designer.cs">
+      <DependentUpon>Room_Namer.cs</DependentUpon>
+    </Compile>
     <Compile Include="ScriptRW.cs" />
     <Compile Include="MADS_SELECTOR_GUI.cs">
       <SubType>Form</SubType>
@@ -96,6 +102,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="Room_Namer.resx">
+      <DependentUpon>Room_Namer.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
